@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+#*******************************************************************************
+#
+# Bare Conductive Pi Cap Polyphonic Touch MP3 Utility Runner
+# ----------------------------------------------------------
+#
+# run - runs ./touch-mp3.py
+#
+# Written by Stefan Dzisiewski-Smith
+#
+# This work is licensed under a Creative Commons Attribution-ShareAlike 3.0
+# Unported License (CC BY-SA 3.0) http://creativecommons.org/licenses/by-sa/3.0/
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+#
+#*******************************************************************************
+
+# make sure we're cd-ed into the script directory
+cd "$(dirname "$(readlink -f "${BASH_SOURCE}")")" || exit
+
+# put back any of the quotes that BASH removed
+# so we can show the user what we're running underneath
+execute_and_echo() {
+    args=''
+    whitespace="[[:space:]]"
+    for i in "$@"
+    do
+        if [[ $i =~ $whitespace ]]
+        then
+            i=\"$i\"
+        fi
+        args+="$i ";
+    done
+    echo "\$ $args"
+    bash -c "$args"
+}
+
+# add sudo if we need to - and pass all arguments to the target
+if [[ $EUID -ne 0 ]]; then
+    execute_and_echo sudo python ./touch-mp3.py "$@"
+else
+    execute_and_echo python ./touch-mp3.py "$@"
+fi
