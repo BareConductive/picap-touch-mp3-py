@@ -7,7 +7,8 @@
 #
 # Written for Raspberry Pi.
 #
-# Bare Conductive code written by Stefan Dzisiewski-Smith, Szymon Kaliski and Tom Hartley.
+# Bare Conductive code written by Stefan Dzisiewski-Smith, Szymon Kaliski,
+# Pascal Loose and Tom Hartley.
 #
 # This work is licensed under a MIT license https://opensource.org/licenses/MIT
 #
@@ -58,7 +59,7 @@ led.off()
 pygame.mixer.pre_init(frequency=44100, channels=64, buffer=1024)
 pygame.init()
 
-sounds = [Sound(path) for path in glob("tracks/.wavs/*.wav")]
+sounds = [Sound(path) for path in sorted(glob("tracks/.wavs/TRACK*.wav"))]
 
 def play_sounds_when_touched():
     if sensor.touch_status_changed():
